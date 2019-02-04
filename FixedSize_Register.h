@@ -9,14 +9,16 @@
 #include "DataFile.h"
 
 class FixedSize_Register {
-public:
+private:
     DataFile * file;
-    char * name;
-    char * job;
-    int code;
-    double salary;
+    char * name;//30
+    char * job;//20
+    int code;//4
+    double salary;//8
 
-
+public:
+    FixedSize_Register();
+    ~FixedSize_Register();
     void print_register();
     char * toChar();
     void fromChar(char *);

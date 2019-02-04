@@ -23,7 +23,7 @@ int main() {
 
         switch (opc) {
             case 1:
-                FixedSize_Register a;
+                FixedSize_Register a ;
                 cout << "** F I X E D  S I Z E **"<< endl;
                 cout << "1. toChar" << endl;
                 cout << "2. fromChar" << endl;

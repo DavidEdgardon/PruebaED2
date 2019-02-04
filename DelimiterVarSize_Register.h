@@ -11,14 +11,16 @@
 
 
 class DelimiterVarSize_Register {
-public:
+private:
      DataFile *file;
-    char * name; //30
-    int code; //4
-    char *job; //20
-    double salary; //8
-//72
+    char * name;
+    int code;
+    char *job;
+    double salary;
 
+public:
+    DelimiterVarSize_Register();
+    ~DelimiterVarSize_Register();
     void print_register( );
     char * toChar( );
     void fromChar( char * );

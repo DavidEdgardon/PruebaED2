@@ -9,6 +9,18 @@
 
 using namespace std;
 
+FixedSize_Register::FixedSize_Register()
+{
+    this->name = new char[30];
+    this->job = new char[20];
+}
+
+FixedSize_Register::~FixedSize_Register()
+{
+    delete[] this->name;
+    delete[] this->job;
+    delete this->file;
+}
 
 
 void FixedSize_Register::print_register() {
@@ -26,32 +38,30 @@ void FixedSize_Register::print_register() {
 }
 
 char* FixedSize_Register::toChar() {
-
+    char separacion = ' ';
+    char final = '|';
     int tamRegistro = this->get_size();
     char *nuevo = new char[tamRegistro];
     int pos = 0;
-    char final = '|';
-    char separacion = ';';
 
-    int tamNombre = strlen(this->name);
-    memcpy(&nuevo[pos], this->name, tamNombre);
-    pos += tamNombre;
-    memcpy(&nuevo[pos], &final, 1);
+    memcpy(&nuevo[pos], this->name, 30);
+    pos += 30;
+    memcpy(&nuevo[pos], &separacion, 1);
     pos++;
-    int tamTrabajo = strlen(this->job);
-    memcpy(&nuevo[pos], this->job, tamTrabajo);
-    pos += tamTrabajo;
-    memcpy(&nuevo[pos], &final, 1);
-    pos++;
+
     memcpy(&nuevo[pos], (char*)&this->code, sizeof(int));
     pos += 4;
-    memcpy(&nuevo[pos], &final, 1);
-    pos++;
-    memcpy(&nuevo[pos], (char*)&this->salary, sizeof(int));
-    pos += 8;
-    memcpy(&nuevo[pos], &final, 1);
-    pos++;
     memcpy(&nuevo[pos], &separacion, 1);
+    pos++;
+
+    memcpy(&nuevo[pos], this->job, 20);
+    pos += 20;
+    memcpy(&nuevo[pos], &separacion, 1);
+    pos++;
+
+    memcpy(&nuevo[pos], (char*)&this->salary, sizeof(double));
+    pos += sizeof(double);
+    memcpy(&nuevo[pos], &final, 1);
     return nuevo;
 }
 
@@ -98,11 +108,16 @@ void FixedSize_Register::close_file() {
 }
 
 void FixedSize_Register::write_into_file() {
-    char *a ;
-   // file->escribir(a);
+    this->file->abrir();
+  //  this->file->escribir(, this->get_size());
+    this->file->cerrar();
 }
 void FixedSize_Register::read_from_file(int pos) {
-    file->leer(pos,get_size());
+    this->file->abrir();
+    char *data = this->file->leer(pos, this->get_size());
+    this->fromChar(data);
+    this->file->cerrar();
+    delete data;
 }
 
 int FixedSize_Register::get_size() {

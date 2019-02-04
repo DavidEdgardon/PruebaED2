@@ -9,7 +9,7 @@
 #include "DataFile.h"
 
 class KnownVarSize_Register {
-public:
+private:
      DataFile *file;
      int sizeName;
     char * name;
@@ -18,7 +18,9 @@ public:
     int code;
     double salary;
 
-
+public:
+    KnownVarSize_Register();
+    ~KnownVarSize_Register();
     void setSizeName(int size);
     int getSizeName();
     void setSizeJob(int size);

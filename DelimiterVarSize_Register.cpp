@@ -9,6 +9,10 @@
 #include "DelimiterVarSize_Register.h"
 using namespace std;
 
+DelimiterVarSize_Register::DelimiterVarSize_Register() {
+
+}
+
 void DelimiterVarSize_Register:: print_register(){
     file->archivo->seekg(0, ios::beg);
 
@@ -24,30 +28,32 @@ void DelimiterVarSize_Register:: print_register(){
 }
 
 char *DelimiterVarSize_Register:: toChar( ){
-    char separacion = ' ';
-    char final = '|';
+
     int tamRegistro = this->get_size();
     char *nuevo = new char[tamRegistro];
     int pos = 0;
+    char final = '|';
+    char separacion = ';';
 
-    memcpy(&nuevo[pos], this->name, 30);
-    pos += 30;
-    memcpy(&nuevo[pos], &separacion, 1);
+    int tamNombre = strlen(this->name);
+    memcpy(&nuevo[pos], this->name, tamNombre);
+    pos += tamNombre;
+    memcpy(&nuevo[pos], &final, 1);
     pos++;
-
+    int tamTrabajo = strlen(this->job);
+    memcpy(&nuevo[pos], this->job, tamTrabajo);
+    pos += tamTrabajo;
+    memcpy(&nuevo[pos], &final, 1);
+    pos++;
     memcpy(&nuevo[pos], (char*)&this->code, sizeof(int));
     pos += 4;
-    memcpy(&nuevo[pos], &separacion, 1);
-    pos++;
-
-    memcpy(&nuevo[pos], this->job, 20);
-    pos += 20;
-    memcpy(&nuevo[pos], &separacion, 1);
-    pos++;
-
-    memcpy(&nuevo[pos], (char*)&this->salary, sizeof(double));
-    pos += sizeof(double);
     memcpy(&nuevo[pos], &final, 1);
+    pos++;
+    memcpy(&nuevo[pos], (char*)&this->salary, sizeof(int));
+    pos += 8;
+    memcpy(&nuevo[pos], &final, 1);
+    pos++;
+    memcpy(&nuevo[pos], &separacion, 1);
     return nuevo;
 }
 
@@ -86,8 +92,9 @@ void DelimiterVarSize_Register::open_file ( char * fil){
 }
 
 void DelimiterVarSize_Register::write_into_file(){
-    char *nuevo ;
- //  file->escribir(nuevo,get_size(),74);
+    this->file->abrir();
+  //  this->file->escribir(, this->get_size());
+    this->file->cerrar();
 }
 
 void DelimiterVarSize_Register::read_from_file(int pos) {

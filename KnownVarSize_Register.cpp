@@ -9,27 +9,18 @@
 
 using namespace std;
 
-void KnownVarSize_Register::setSizeName(int size){
-    this->sizeName = size;
-}
 
-int KnownVarSize_Register::getSizeName(){
-    return sizeName;
-}
-
-void KnownVarSize_Register::setSizeJob(int size){
-    this->sizeJob=size;
-}
-
-int KnownVarSize_Register::getSizeJob(){
-    return sizeJob;
-}
-/*
 KnownVarSize_Register::KnownVarSize_Register() {
-    name = new char[getSizeName()];
-    job = new char[getSizeJob()];
+
+   }
+
+KnownVarSize_Register::~KnownVarSize_Register() {
+    delete[] this->name;
+    delete[] this->job;
+    delete this->file;
 }
-*/
+
+
 void KnownVarSize_Register::print_register(){
     file->archivo->seekg(0, ios::beg);
 
@@ -111,8 +102,9 @@ void KnownVarSize_Register::open_file ( char *fil ){
 }
 
 void KnownVarSize_Register::write_into_file(){
-
-  //  file->escribir(a, fseek(a,62,SEEK_SET),62);
+    this->file->abrir();
+   // this->file->escribir(, this->get_size());
+    this->file->cerrar();
 }
 
 void KnownVarSize_Register::read_from_file(int pos){

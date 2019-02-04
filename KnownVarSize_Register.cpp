@@ -48,8 +48,8 @@ void KnownVarSize_Register::print_register(){
 char *KnownVarSize_Register:: toChar(){
     char final = '|';
     char separacion = ';';
-    int tamano_registro = this->get_size();
-    char *nuevo = new char[tamano_registro];
+    int tamRegistro = this->get_size();
+    char *nuevo = new char[tamRegistro];
     int pos = 0;
 
     memcpy(&nuevo[pos], (char*)this->sizeName, sizeof(int));
@@ -77,7 +77,7 @@ char *KnownVarSize_Register:: toChar(){
 }
 
 void KnownVarSize_Register::fromChar( char * bufer) {
-    string temporal = "";
+    string tmp = "";
     int tamActual = 0;
     int posActual = 0, i = 0;
     bool final = false;
@@ -85,22 +85,22 @@ void KnownVarSize_Register::fromChar( char * bufer) {
     while (!final) {
         if (bufer[i] == '|') {
             if (posActual == 0) {
-                strcpy(this->name, (char *) &temporal);
+                strcpy(this->name, (char *) &tmp);
                 posActual++;
             } else if (posActual == 1) {
-                strcpy(this->job, (char *) &temporal);
+                strcpy(this->job, (char *) &tmp);
                 posActual++;
             } else if (posActual == 2) {
-                this->code = stoi(temporal);
+                this->code = stoi(tmp);
                 posActual++;
             } else if (posActual == 3) {
-                this->salary = stoi(temporal);
+                this->salary = stoi(tmp);
                 final = true;
             }
-            temporal = "";
+            tmp = "";
             tamActual = 0;
         }
-        temporal += bufer[i];
+        tmp += bufer[i];
         tamActual++;
     }
 }

@@ -27,20 +27,20 @@ void FixedSize_Register::print_register() {
 
 char* FixedSize_Register::toChar() {
 
-    int tamano_registro = this->get_size();
-    char *nuevo = new char[tamano_registro];
+    int tamRegistro = this->get_size();
+    char *nuevo = new char[tamRegistro];
     int pos = 0;
     char final = '|';
     char separacion = ';';
 
-    int tamano_nombre = strlen(this->name);
-    memcpy(&nuevo[pos], this->name, tamano_nombre);
-    pos += tamano_nombre;
+    int tamNombre = strlen(this->name);
+    memcpy(&nuevo[pos], this->name, tamNombre);
+    pos += tamNombre;
     memcpy(&nuevo[pos], &final, 1);
     pos++;
-    int tamano_Trabajo = strlen(this->job);
-    memcpy(&nuevo[pos], this->job, tamano_Trabajo);
-    pos += tamano_Trabajo;
+    int tamTrabajo = strlen(this->job);
+    memcpy(&nuevo[pos], this->job, tamTrabajo);
+    pos += tamTrabajo;
     memcpy(&nuevo[pos], &final, 1);
     pos++;
     memcpy(&nuevo[pos], (char*)&this->code, sizeof(int));
@@ -56,7 +56,7 @@ char* FixedSize_Register::toChar() {
 }
 
 void FixedSize_Register::fromChar(char * buffer) {
-    string temporal = "";
+    string tmp = "";
     int tamActual = 0;
     int posActual = 0, i = 0;
     bool final = false;
@@ -64,25 +64,25 @@ void FixedSize_Register::fromChar(char * buffer) {
     while(!final) {
         if (buffer[i] == '|') {
             if (posActual == 0) {
-                strcpy(this->name, (char*)&temporal);
+                strcpy(this->name, (char*)&tmp);
                 posActual++;
             }
             else if (posActual == 1) {
-                strcpy(this->job, (char*)&temporal);
+                strcpy(this->job, (char*)&tmp);
                 posActual++;
             }
             else if (posActual == 2) {
-                this->code = stoi(temporal);
+                this->code = stoi(tmp);
                 posActual++;
             }
             else if (posActual == 3) {
-                this->salary = stoi(temporal);
+                this->salary = stoi(tmp);
                 final = true;
             }
-            temporal = "";
+            tmp = "";
             tamActual = 0;
         }
-        temporal += buffer[i];
+        tmp += buffer[i];
         tamActual++;
     }
 }

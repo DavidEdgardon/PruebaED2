@@ -24,59 +24,59 @@ void DelimiterVarSize_Register:: print_register(){
 }
 
 char *DelimiterVarSize_Register:: toChar( ){
-    char caracter_separacion = ' ';
-    char caracter_de_fin = '\n';
-    int tamano_registro = this->get_size();
-    char *nuevo = new char[tamano_registro];
+    char separacion = ' ';
+    char final = '|';
+    int tamRegistro = this->get_size();
+    char *nuevo = new char[tamRegistro];
     int pos = 0;
 
     memcpy(&nuevo[pos], this->name, 30);
     pos += 30;
-    memcpy(&nuevo[pos], &caracter_separacion, 1);
+    memcpy(&nuevo[pos], &separacion, 1);
     pos++;
 
     memcpy(&nuevo[pos], (char*)&this->code, sizeof(int));
     pos += 4;
-    memcpy(&nuevo[pos], &caracter_separacion, 1);
+    memcpy(&nuevo[pos], &separacion, 1);
     pos++;
 
     memcpy(&nuevo[pos], this->job, 20);
     pos += 20;
-    memcpy(&nuevo[pos], &caracter_separacion, 1);
+    memcpy(&nuevo[pos], &separacion, 1);
     pos++;
 
     memcpy(&nuevo[pos], (char*)&this->salary, sizeof(double));
     pos += sizeof(double);
-    memcpy(&nuevo[pos], &caracter_de_fin, 1);
+    memcpy(&nuevo[pos], &final, 1);
     return nuevo;
 }
 
 
 void DelimiterVarSize_Register::fromChar(char * bufer) {
-    string temporal = "";
-    int i = 0, tamanoActual = 0, posicionActual = 0;
+    string tmp = "";
+    int i = 0, tamActual = 0, posActual = 0;
     bool final = false;
     while (!final) {
         if (bufer[i] == '|') {
-            if (posicionActual == 0) {
-                strcpy(this->name, (char *) &temporal);
-                posicionActual++;
-            } else if (posicionActual == 1) {
-                this->code = stoi(temporal);
-                posicionActual++;
-            } else if (posicionActual == 2) {
-                strcpy(this->job, (char *) &temporal);
+            if (posActual == 0) {
+                strcpy(this->name, (char *) &tmp);
+                posActual++;
+            } else if (posActual == 1) {
+                this->code = stoi(tmp);
+                posActual++;
+            } else if (posActual == 2) {
+                strcpy(this->job, (char *) &tmp);
                 final = true;
-            } else if (posicionActual == 3) {
-                this->salary = stoi(temporal);
-                posicionActual++;
+            } else if (posActual == 3) {
+                this->salary = stoi(tmp);
+                posActual++;
             }
 
-            temporal = "";
-            tamanoActual = 0;
+            tmp = "";
+            tamActual = 0;
         }
-        temporal += bufer[i];
-        tamanoActual++;
+        tmp += bufer[i];
+        tamActual++;
     }
 }
 
